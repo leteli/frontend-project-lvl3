@@ -1,0 +1,7 @@
+.form-control {
+  border: 1px solid grey;
+}
+
+.form-control.is-invalid {
+  border: 1px solid red;
+}
