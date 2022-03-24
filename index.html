@@ -5,19 +5,20 @@
         <title>Webpack App</title>
     </head>
     <body>
-        <main>
-          <section>
+        <main class="font">
+          <section class="container-fluid light-blue p-3">
             <div>
-              <h1>RSS агрегатор</h1>
+              <h1 class="main-header">RSS агрегатор</h1>
               <p>Начните читать RSS сегодня!</p>
               <form class="rss-form">
-                <input id="url-input" autofocus required type="text" name="url" value="" class="form-control" placeholder="ссылка RSS">
-                <label for="url-input">Ссылка RSS</label>
-                <button type="submit">Добавить</button>
+                <input id="url-input" autofocus required type="text" name="url" value="" class="form-control" aria-label="url" placeholder="ссылка RSS">
+                <label for="url-input" class="sr-only">Ссылка RSS</label>
+                <button type="submit" class="btn">Добавить</button>
               </form>
-              <p>Пример: https://ru.hexlet.io/lessons.rss</p>
+              <p class="example">Пример: https://ru.hexlet.io/lessons.rss</p>
             </div>
           </section>
+          <section class="container-fluid"></section>
         </main>
     </body>   
 </html>
