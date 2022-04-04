@@ -3,8 +3,11 @@ const state = {
     valid: true,
     errors: [],
     inputUrl: '',
+    processState: '',
   },
   feeds: [],
+  feedsUrl: [],
+  posts: [],
 };
 
 export default state;
