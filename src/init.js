@@ -1,8 +1,10 @@
 import i18next from 'i18next';
 import * as yup from 'yup';
+import axios from 'axios';
 import { setLocale } from 'yup';
 import ru from './locale-ru.js';
 import watchedState from './view.js';
+import parse from './parser.js';
 
 setLocale({
   mixed: {
@@ -22,17 +24,31 @@ export default () => {
     debug: false,
     resources: { ru },
   });
+
   const form = document.querySelector('.rss-form');
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const value = formData.get('url');
+
     schema.validate({ url: value })
       .then(() => {
-        watchedState.form.valid = !watchedState.feeds.includes(value);
-        if (watchedState.form.valid) {
-          watchedState.feeds.push(value);
+        const valueUrl = new URL(value);
+        return axios.get(`https://allorigins.hexlet.app/raw?disableCache=true&url=${valueUrl}`);
+      })
+      .then((response) => {
+        if (watchedState.feedsUrl.includes(value)) {
+          throw new Error('This feed has already been added');
         }
+        watchedState.feedsUrl.push(value);
+        console.log(response.data);
+        const { feed, postsArr } = parse(response.data);
+        watchedState.feeds.push(feed);
+        watchedState.posts.push(...postsArr);
+        console.log(watchedState.feeds);
+        console.log(feed);
+        console.log(watchedState.posts);
+        console.log(postsArr);
       })
       .catch((err) => {
         console.log(err.message);
