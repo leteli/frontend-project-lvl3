@@ -22,6 +22,7 @@ const watchedState = onChange(state, (path, value) => {
     feedsHeader.textContent = 'Фиды'; // положить текст в i18next!
     feedsEl.prepend(feedsHeader);
     const feedsList = document.createElement('ul');
+    feedsList.innerHTML = '';
     value.forEach((feed) => {
       const feedLiEl = document.createElement('li');
       const feedTitle = document.createElement('h3');
@@ -39,6 +40,8 @@ const watchedState = onChange(state, (path, value) => {
     postsHeader.textContent = 'Посты'; // положить текст в i18next!
     postsEl.prepend(postsHeader);
     const postsList = document.createElement('ul');
+    postsList.innerHTML = '';
+    console.log(value);
     value.forEach((post) => {
       const postLiEl = document.createElement('li');
       const postLink = document.createElement('a');
