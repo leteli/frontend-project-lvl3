@@ -47,7 +47,10 @@ const watchedState = onChange(state, (path, value) => {
       const postLink = document.createElement('a');
       postLink.setAttribute('href', post.link);
       postLink.textContent = post.title;
-      postLiEl.classList.add('fw-bold');
+      if (!state.uiState.readPostsIds.includes(post.id)) {
+        postLiEl.classList.add('fw-bold');
+      }
+      postLiEl.setAttribute('id', `${post.id}`);
       postLiEl.append(postLink);
       const postButton = document.createElement('button');
       postButton.classList.add('btn', 'btn-primary');
@@ -56,16 +59,29 @@ const watchedState = onChange(state, (path, value) => {
       postButton.setAttribute('data-bs-target', '#exampleModal');
       postButton.textContent = 'Просмотр'; // положить текст в i18next
       postButton.addEventListener('click', () => {
-        const modalTitle = document.getElementById('exampleModalLabel');
-        const modalDescription = document.getElementById('postDescription');
-        postLiEl.classList.add('fw-normal');
-        postLiEl.classList.remove('fw-bold');
-        modalTitle.textContent = post.title;
-        modalDescription.textContent = post.description;
+        watchedState.uiState.clickedPost = post;
+        console.log(state.uiState.clickedPost);
+        if (!state.uiState.readPostsIds.includes(post.id)) {
+          watchedState.uiState.readPostsIds.push(post.id);
+        }
       });
+
       postsList.append(postLiEl, postButton);
     });
     postsEl.append(postsList);
+  }
+  if (path === 'uiState.clickedPost') {
+    const modalTitle = document.getElementById('exampleModalLabel');
+    const modalDescription = document.getElementById('postDescription');
+    modalTitle.textContent = value.title;
+    modalDescription.textContent = value.description;
+  }
+  if (path === 'uiState.readPostsIds') {
+    value.forEach((id) => {
+      const postEl = document.getElementById(id);
+      postEl.classList.add('fw-normal', 'text-secondary');
+      postEl.classList.remove('fw-bold');
+    });
   }
 });
 
