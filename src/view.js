@@ -47,8 +47,23 @@ const watchedState = onChange(state, (path, value) => {
       const postLink = document.createElement('a');
       postLink.setAttribute('href', post.link);
       postLink.textContent = post.title;
+      postLiEl.classList.add('fw-bold');
       postLiEl.append(postLink);
-      postsList.append(postLiEl);
+      const postButton = document.createElement('button');
+      postButton.classList.add('btn', 'btn-primary');
+      postButton.setAttribute('type', 'button');
+      postButton.setAttribute('data-bs-toggle', 'modal');
+      postButton.setAttribute('data-bs-target', '#exampleModal');
+      postButton.textContent = 'Просмотр'; // положить текст в i18next
+      postButton.addEventListener('click', () => {
+        const modalTitle = document.getElementById('exampleModalLabel');
+        const modalDescription = document.getElementById('postDescription');
+        postLiEl.classList.add('fw-normal');
+        postLiEl.classList.remove('fw-bold');
+        modalTitle.textContent = post.title;
+        modalDescription.textContent = post.description;
+      });
+      postsList.append(postLiEl, postButton);
     });
     postsEl.append(postsList);
   }
