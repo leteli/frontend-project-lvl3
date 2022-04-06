@@ -5,7 +5,10 @@ const state = {
   },
   feeds: [],
   posts: [],
-  readPosts: [],
+  uiState: {
+    clickedPost: {},
+    readPostsIds: [],
+  },
 };
 
 export default state;
