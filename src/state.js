@@ -5,6 +5,7 @@ const state = {
   },
   feeds: [],
   posts: [],
+  readPosts: [],
 };
 
 export default state;
