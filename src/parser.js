@@ -15,9 +15,11 @@ export default (data) => {
   const postsArr = posts.map((post) => {
     const title = post.querySelector('title');
     const link = post.querySelector('link');
+    const description = post.querySelector('description');
     return {
       title: title.textContent,
       link: link.textContent,
+      description: description.textContent,
     };
   });
   return { feed, postsArr };
