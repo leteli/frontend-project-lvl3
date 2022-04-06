@@ -11,18 +11,8 @@
   border: 2px solid red;
 }
 
-.container-fluid {
-  width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-}
-
 .light-blue {
   background-color: rgb(169, 204, 227);
-}
-
-.p-3 {
-  padding: 5% 10%;
 }
 
 .font {
@@ -36,42 +26,4 @@
   font-size: 50px;
   line-height: 0.5;
   font-weight: 300;
-}
-
-.sr-only {
-  position: absolute;
-
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  border: 0;
-  overflow: hidden;
-
-  white-space: nowrap;
-}
-
-.example {
-  font-size: 18px;
-  color: rgb(93, 109, 126);
-}
-
-.btn {
-  height: 50px;
-  width: 10%;
-  border: 4px solid white;
-  border-radius: 5px;
-  background-color: rgb(250, 215, 160);
-  font-size: 18px;
-  color:rgb(40, 55, 71);
-}
-
-h2 {
-  padding: 0;
-  margin: 0;
-  font-size: 25px;
-  font-weight: 500;
-}
-
-#exampleModal {
-  display: none;
 }
