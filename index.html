@@ -2,28 +2,45 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>Webpack App</title>
+        <title>RSS агрегатор</title>
     </head>
     <body>
-        <main class="font">
-          <section class="container-fluid light-blue p-3">
-            <div>
-              <h1 class="main-header">RSS агрегатор</h1>
-              <p>Начните читать RSS сегодня!</p>
-              <form class="rss-form">
-                <input id="url-input" autofocus required type="text" name="url" value="" class="form-control" aria-label="url" placeholder="ссылка RSS">
-                <label for="url-input" class="sr-only">Ссылка RSS</label>
-                <button type="submit" class="btn">Добавить</button>
-              </form>
-              <p class="example">Пример: https://ru.hexlet.io/lessons.rss</p>
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel"></h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-          </section>
-          <section class="container-fluid p-3">
-            <div class="row">
-              <div class="col posts"></div>
-              <div class="col feeds"></div>
+            <div class="modal-body">
+              <p id="postDescription"></p>
             </div>
-          </section>
-        </main>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary">Читать полностью</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <main class="font">
+        <section class="container-fluid light-blue p-3">
+          <div>
+            <h1 class="main-header">RSS агрегатор</h1>
+            <p>Начните читать RSS сегодня!</p>
+            <form class="rss-form">
+              <input id="url-input" autofocus required type="text" name="url" value="" class="form-control" aria-label="url" placeholder="ссылка RSS">
+              <label for="url-input" class="sr-only">Ссылка RSS</label>
+              <button type="submit" class="btn">Добавить</button>
+            </form>
+            <p class="example">Пример: https://ru.hexlet.io/lessons.rss</p>
+          </div>
+        </section>
+        <section class="container-fluid p-3">
+          <div class="row">
+            <div class="col posts"></div>
+            <div class="col feeds"></div>
+          </div>
+        </section>
+      </main>
     </body>   
 </html>
