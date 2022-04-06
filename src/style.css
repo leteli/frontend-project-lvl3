@@ -71,3 +71,7 @@ h2 {
   font-size: 25px;
   font-weight: 500;
 }
+
+#exampleModal {
+  display: none;
+}
