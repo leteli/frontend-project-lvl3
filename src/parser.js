@@ -1,6 +1,11 @@
 export default (data) => {
   const parser = new DOMParser();
-  const parsedRss = parser.parseFromString(data, 'text/xml');
+  console.log(typeof data);
+  const parsedRss = parser.parseFromString(data, 'application/xml');
+  const errorNode = parsedRss.querySelector('parsererror');
+  if (errorNode) {
+    throw new Error('invalidRss');
+  }
   console.log(parsedRss);
   const feedTitle = parsedRss.querySelector('title');
   const feedDescription = parsedRss.querySelector('description');
