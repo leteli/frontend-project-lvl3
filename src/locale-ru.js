@@ -1,8 +1,15 @@
 export default {
   translation: {
-    field_invalid: 'Ссылка должна быть валидным URL',
-    rss_exists: 'RSS-поток уже добавлен',
-    feeds: 'Фиды',
-    posts: 'Посты',
+    form: {
+      success: 'RSS успешно загружен',
+      errors: {
+        rssExists: 'RSS уже существует',
+        empty: 'Не должно быть пустым',
+        invalidUrl: 'Ссылка должна быть валидным URL',
+        invalidRss: 'Ресурс не содержит валидный RSS',
+      },
+    },
+    checkButton: 'Просмотр',
+    networkError: 'Ошибка сети',
   },
 };
