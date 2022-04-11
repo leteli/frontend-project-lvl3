@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "My webpack project",
   "type": "module",
-  "main": "src/index.js",
+  "main": "src/init.js",
   "scripts": {
     "test": "jest --colors",
     "build": "webpack --mode=production --node-env=production",
