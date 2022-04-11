@@ -18,7 +18,7 @@ const schema = yup.object().shape({
 });
 
 const httpRequest = (url) => axios
-  .get(`https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(url)}`)
+  .get(`https://allorigins.hexlet.app/get?disableCache=true&url=${url}`)
   .catch(() => {
     throw new Error('networkError');
   });
@@ -66,7 +66,6 @@ export default (watchedState) => {
       return setTimeout(rssCheck, 5000, feed, watchedState);
     })
     .catch((err) => {
-      console.log(err);
       console.log(err.message);
       watchedState.form.valid = false;
       switch (err.message) {
