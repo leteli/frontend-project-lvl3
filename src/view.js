@@ -45,7 +45,6 @@ const render = (state, i18nextInstance) => {
       postsEl.prepend(postsHeader);
       const postsList = document.createElement('ul');
       postsList.innerHTML = '';
-      console.log(value);
       value.forEach((post) => {
         const postLiEl = document.createElement('li');
         const postLink = document.createElement('a');
@@ -64,7 +63,6 @@ const render = (state, i18nextInstance) => {
         postButton.textContent = i18nextInstance.t('checkButton');
         postButton.addEventListener('click', () => {
           watchedState.uiState.clickedPost = post;
-          console.log(state.uiState.clickedPost);
           if (!state.uiState.readPostsIds.includes(post.id)) {
             watchedState.uiState.readPostsIds.push(post.id);
           }
@@ -88,11 +86,8 @@ const render = (state, i18nextInstance) => {
     }
     if (path === 'form.error') {
       feedback.textContent = i18nextInstance.t(value);
-      console.log(feedback.textContent);
     }
   });
-
-  console.log(form);
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
