@@ -91,9 +91,11 @@ const render = (state, i18nextInstance) => {
       console.log(feedback.textContent);
     }
   });
+
+  console.log(form);
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    console.log('try');
     const formData = new FormData(e.target);
     const urlValue = formData.get('url');
     watchedState.form.inputUrl = urlValue;
