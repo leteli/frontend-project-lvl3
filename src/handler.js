@@ -17,11 +17,14 @@ const schema = yup.object().shape({
   url: yup.string().required().url(),
 });
 
-const httpRequest = (url) => axios
-  .get(`https://allorigins.hexlet.app/get?disableCache=true&url=${url}`)
-  .catch(() => {
-    throw new Error('networkError');
-  });
+const httpRequest = (url) => {
+  const inputUrl = new URL(url);
+  return axios
+    .get(`https://allorigins.hexlet.app/get?disableCache=true&url=${inputUrl}`) // сделать объект урл!
+    .catch(() => {
+      throw new Error('networkError');
+    });
+};
 
 const rssCheck = (feed, watchedState) => {
   httpRequest(feed.url)
