@@ -53,19 +53,23 @@ export default (watchedState) => {
   const value = watchedState.form.inputUrl;
   const feedUrls = watchedState.feeds.map((feed) => feed.url);
   schema.validate({ url: value })
-    .then(() => httpRequest(value))
-    .then((response) => {
+    .then(() => {
       if (feedUrls.includes(value)) {
         throw new Error('rssExists');
       }
+      watchedState.form.state = 'processing';
+      return httpRequest(value);
+    })
+    .then((response) => {
       const { feed, postsArr } = parse(response.data.contents);
+      watchedState.form.state = 'processed';
+      watchedState.form.valid = true;
       feed.id = _.uniqueId();
       feed.url = value;
       const postsWithIds = postsArr
         .map((post) => ({ ...post, id: _.uniqueId(), feedId: feed.id }));
       watchedState.feeds.push(feed);
       watchedState.posts.push(...postsWithIds);
-      watchedState.form.valid = true;
       return setTimeout(rssCheck, 5000, feed, watchedState);
     })
     .catch((err) => {
@@ -74,6 +78,7 @@ export default (watchedState) => {
       switch (err.message) {
         case 'invalidRss':
           watchedState.form.error = 'form.errors.invalidRss';
+          watchedState.form.state = 'failed';
           break;
         case 'invalidUrl':
           watchedState.form.error = 'form.errors.invalidUrl';
@@ -86,6 +91,7 @@ export default (watchedState) => {
           break;
         case 'networkError':
           watchedState.form.error = 'networkError';
+          watchedState.form.state = 'failed';
           break;
         default:
           throw new Error('Неизвестная ошибка');
