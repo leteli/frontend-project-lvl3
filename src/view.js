@@ -19,7 +19,7 @@ const render = (state, i18nextInstance) => {
       }
     }
     if (path === 'feeds') {
-      form.reset();
+      input.value = '';
       input.focus();
       feedsEl.innerHTML = '';
       const feedsHeader = document.createElement('h2');
