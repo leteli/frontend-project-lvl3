@@ -5,6 +5,7 @@ import handler from './handler.js';
 const render = (state, i18nextInstance) => {
   const form = document.querySelector('.rss-form');
   const input = document.querySelector('#url-input');
+  const submitButton = document.querySelector('[type="submit"]');
   const feedback = document.querySelector('.feedback');
   const feedsEl = document.querySelector('.feeds');
   const postsEl = document.querySelector('.posts');
@@ -15,9 +16,24 @@ const render = (state, i18nextInstance) => {
         input.classList.add('is-invalid');
       } else {
         input.classList.remove('is-invalid');
-        feedback.textContent = i18nextInstance.t('form.success');
       }
     }
+    if (path === 'form.state') {
+      if (value === 'processing') {
+        input.setAttribute('readonly', 'readonly');
+        submitButton.disabled = true;
+      }
+      if (value === 'processed') {
+        input.removeAttribute('readonly');
+        submitButton.disabled = false;
+        feedback.textContent = i18nextInstance.t('form.success');
+      }
+      if (value === 'failed') {
+        input.removeAttribute('readonly');
+        submitButton.disabled = false;
+      }
+    }
+
     if (path === 'feeds') {
       input.value = '';
       input.focus();
