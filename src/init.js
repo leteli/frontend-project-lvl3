@@ -13,6 +13,7 @@ export default () => {
 
   const state = {
     form: {
+      state: 'filling',
       valid: '',
       error: '',
       inputUrl: '',
