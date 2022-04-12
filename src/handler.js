@@ -19,6 +19,8 @@ const schema = yup.object().shape({
 
 const httpRequest = (url) => {
   const inputUrl = new URL(url);
+  console.log(inputUrl);
+  console.log(url);
   return axios
     .get(`https://allorigins.hexlet.app/get?disableCache=true&url=${inputUrl}`) // сделать объект урл!
     .catch(() => {
