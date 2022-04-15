@@ -5,7 +5,7 @@ import render from './view.js';
 
 export default () => {
   const defaultLanguage = 'ru';
-  const i18nextInstance = i18next.createInstance(); // мб придется переместить инициализацию!
+  const i18nextInstance = i18next.createInstance();
   i18nextInstance.init({
     lng: defaultLanguage,
     debug: false,
@@ -21,7 +21,7 @@ export default () => {
     },
   });
 
-  const schema = yup.object().shape({ // передать schema через параметры
+  const schema = yup.object().shape({
     url: yup.string().required().url(),
   });
 
