@@ -4,9 +4,9 @@ import parse from './parser.js';
 
 const httpRequest = (url) => {
   const inputUrl = new URL(url);
-  console.log(inputUrl.toString());
+  const urlWithoutSlash = inputUrl.href.endsWith('/') ? inputUrl.origin : inputUrl.href;
   return axios
-    .get(`https://allorigins.hexlet.app/get?disableCache=true&url=${inputUrl.toString()}`) // сделать объект урл!
+    .get(`https://allorigins.hexlet.app/get?disableCache=true&url=${urlWithoutSlash}`) // сделать объект урл!
     .catch(() => {
       throw new Error('networkError');
     });
