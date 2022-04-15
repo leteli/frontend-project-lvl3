@@ -1,21 +1,6 @@
 import axios from 'axios';
-import * as yup from 'yup';
-import { setLocale } from 'yup';
 import _ from 'lodash';
 import parse from './parser.js';
-
-setLocale({
-  string: {
-    url: 'invalidUrl',
-  },
-  mixed: {
-    required: 'emptyField',
-  },
-});
-
-const schema = yup.object().shape({
-  url: yup.string().required().url(),
-});
 
 const httpRequest = (url) => {
   console.log(url);
@@ -49,7 +34,7 @@ const rssCheck = (feed, watchedState) => {
   return setTimeout(rssCheck, 5000, feed, watchedState);
 };
 
-export default (watchedState) => {
+export default (watchedState, schema) => {
   const value = watchedState.form.inputUrl;
   const feedUrls = watchedState.feeds.map((feed) => feed.url);
   schema.validate({ url: value })

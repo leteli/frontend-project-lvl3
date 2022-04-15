@@ -2,7 +2,7 @@ import onChange from 'on-change';
 import './style.css';
 import handler from './handler.js';
 
-const render = (state, i18nextInstance) => {
+const render = (state, i18nextInstance, schema) => {
   const form = document.querySelector('.rss-form');
   const input = document.querySelector('#url-input');
   const submitButton = document.querySelector('[type="submit"]');
@@ -110,7 +110,7 @@ const render = (state, i18nextInstance) => {
     const formData = new FormData(e.target);
     const urlValue = formData.get('url');
     watchedState.form.inputUrl = urlValue;
-    handler(watchedState);
+    handler(watchedState, schema);
   });
 };
 
