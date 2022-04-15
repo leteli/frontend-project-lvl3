@@ -3,9 +3,9 @@ import _ from 'lodash';
 import parse from './parser.js';
 
 const httpRequest = (url) => {
-  console.log(url);
+  const inputUrl = new URL(url);
   return axios
-    .get(`https://allorigins.hexlet.app/get?disableCache=true&url=${url}`) // сделать объект урл!
+    .get(`https://allorigins.hexlet.app/get?disableCache=true&url=${inputUrl}`) // сделать объект урл!
     .catch(() => {
       throw new Error('networkError');
     });
