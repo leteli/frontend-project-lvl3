@@ -4,6 +4,7 @@ import parse from './parser.js';
 
 const httpRequest = (url) => {
   const inputUrl = new URL(url);
+  console.log(inputUrl.href);
   return axios
     .get(`https://allorigins.hexlet.app/get?disableCache=true&url=${inputUrl.href}`) // сделать объект урл!
     .catch(() => {
