@@ -2,7 +2,7 @@ import onChange from 'on-change';
 import './style.css';
 import handler from './handler.js';
 
-const render = (state, i18nextInstance, schema) => {
+const render = (state, i18nextInstance) => {
   const form = document.querySelector('.rss-form');
   const input = document.querySelector('#url-input');
   const submitButton = document.querySelector('[type="submit"]');
@@ -39,7 +39,7 @@ const render = (state, i18nextInstance, schema) => {
       input.focus();
       feedsEl.innerHTML = '';
       const feedsHeader = document.createElement('h2');
-      feedsHeader.textContent = 'Фиды'; // положить текст в i18next!
+      feedsHeader.textContent = i18nextInstance.t('feedsHeader');
       feedsEl.prepend(feedsHeader);
       const feedsList = document.createElement('ul');
       feedsList.innerHTML = '';
@@ -57,7 +57,7 @@ const render = (state, i18nextInstance, schema) => {
     if (path === 'posts') {
       postsEl.innerHTML = '';
       const postsHeader = document.createElement('h2');
-      postsHeader.textContent = 'Посты'; // положить текст в i18next!
+      postsHeader.textContent = i18nextInstance.t('postsHeader');
       postsEl.prepend(postsHeader);
       const postsList = document.createElement('ul');
       postsList.innerHTML = '';
@@ -110,7 +110,7 @@ const render = (state, i18nextInstance, schema) => {
     const formData = new FormData(e.target);
     const urlValue = formData.get('url');
     watchedState.form.inputUrl = urlValue;
-    handler(watchedState, schema);
+    handler(watchedState);
   });
 };
 
