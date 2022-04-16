@@ -56,6 +56,7 @@ export default (watchedState) => {
       return setTimeout(rssCheck, 5000, feed, watchedState);
     })
     .catch((err) => {
+      console.log(err.name);
       console.log(err.message);
       if (err.isAxiosError) {
         watchedState.form.error = 'networkError';
@@ -63,22 +64,12 @@ export default (watchedState) => {
         return;
       }
       watchedState.form.valid = false;
-      switch (err.message) {
-        case 'invalidRss':
-          watchedState.form.error = 'form.errors.invalidRss';
-          watchedState.form.state = 'failed';
-          break;
-        case 'invalidUrl':
-          watchedState.form.error = 'form.errors.invalidUrl';
-          break;
-        case 'emptyField':
-          watchedState.form.error = 'form.errors.empty';
-          break;
-        case 'rssExists':
-          watchedState.form.error = 'form.errors.rssExists';
-          break;
-        default:
-          throw new Error('Unknown error!');
+      if (err.name === 'ValidationError') {
+        watchedState.form.error = err.message;
+      }
+      if (err.name === 'ParserError') {
+        watchedState.form.error = 'form.errors.invalidRss';
+        watchedState.form.state = 'failed';
       }
     });
 };
