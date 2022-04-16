@@ -1,66 +1,67 @@
 import axios from 'axios';
 import _ from 'lodash';
+import * as yup from 'yup';
 import parse from './parser.js';
 
-const httpRequest = (url) => {
-  const inputUrl = new URL(url);
-  const urlWithoutSlash = inputUrl.href.endsWith('/') ? inputUrl.origin : inputUrl.href;
-  console.log(urlWithoutSlash);
-  return axios
-    .get(`https://allorigins.hexlet.app/get?disableCache=true&url=${urlWithoutSlash}`) // сделать объект урл!
-    .catch(() => {
-      throw new Error('networkError');
-    });
+const validate = (watchedState, value) => {
+  const schema = yup.object().shape({
+    url: yup.string().required().url().notOneOf(watchedState.feeds.map((feed) => feed.url)),
+  });
+  return schema.validate({ url: value });
 };
 
-const rssCheck = (feed, watchedState) => {
-  httpRequest(feed.url)
-    .then((response) => {
-      console.log('ответ!');
-      const { postsArr } = parse(response.data.contents);
-      console.log(watchedState);
-      const filteredPosts = watchedState.posts
-        .filter(({ feedId }) => feedId === feed.id);
-      const stateTitles = filteredPosts
-        .map((post) => post.title);
-      console.log(stateTitles);
-      const newPosts = postsArr
-        .filter((post) => !stateTitles.includes(post.title));
-      console.log(newPosts);
-      if (newPosts.length !== 0) {
-        const newPostsWithIds = newPosts
-          .map((post) => ({ ...post, id: _.uniqueId(), feedId: feed.id }));
-        watchedState.posts.unshift(...newPostsWithIds);
-      }
-    });
-  return setTimeout(rssCheck, 5000, feed, watchedState);
+const addProxy = (url) => {
+  const urlWithProxy = new URL('/get', 'https://allorigins.hexlet.app');
+  urlWithProxy.searchParams.set('url', url);
+  urlWithProxy.searchParams.set('disableCache', 'true');
+  return urlWithProxy.toString();
 };
 
-export default (watchedState, schema) => {
-  const value = watchedState.form.inputUrl;
-  const feedUrls = watchedState.feeds.map((feed) => feed.url);
-  schema.validate({ url: value })
+const rssCheck = (feed, watchedState) => axios
+  .get(addProxy(feed.url))
+  .then((response) => {
+    const { postsArr } = parse(response.data.contents);
+    const filteredPosts = watchedState.posts
+      .filter(({ feedId }) => feedId === feed.id);
+    const stateTitles = filteredPosts
+      .map((post) => post.title);
+    const newPosts = postsArr
+      .filter((post) => !stateTitles.includes(post.title));
+    console.log(newPosts);
+    if (newPosts.length !== 0) {
+      const newPostsWithIds = newPosts
+        .map((post) => ({ ...post, id: _.uniqueId(), feedId: feed.id }));
+      watchedState.posts.unshift(...newPostsWithIds);
+    }
+  })
+  .then(() => setTimeout(rssCheck, 5000, feed, watchedState));
+
+export default (watchedState) => {
+  const urlValue = watchedState.form.inputUrl;
+  validate(watchedState, urlValue)
     .then(() => {
-      if (feedUrls.includes(value)) {
-        throw new Error('rssExists');
-      }
       watchedState.form.state = 'processing';
-      return httpRequest(value);
+      return axios.get(addProxy(urlValue));
     })
     .then((response) => {
       const { feed, postsArr } = parse(response.data.contents);
-      watchedState.form.state = 'processed';
       watchedState.form.valid = true;
       feed.id = _.uniqueId();
-      feed.url = value;
+      feed.url = urlValue;
       const postsWithIds = postsArr
         .map((post) => ({ ...post, id: _.uniqueId(), feedId: feed.id }));
       watchedState.feeds.push(feed);
       watchedState.posts.push(...postsWithIds);
+      watchedState.form.state = 'processed';
       return setTimeout(rssCheck, 5000, feed, watchedState);
     })
     .catch((err) => {
       console.log(err.message);
+      if (err.isAxiosError) {
+        watchedState.form.error = 'networkError';
+        watchedState.form.state = 'failed';
+        return;
+      }
       watchedState.form.valid = false;
       switch (err.message) {
         case 'invalidRss':
@@ -76,12 +77,8 @@ export default (watchedState, schema) => {
         case 'rssExists':
           watchedState.form.error = 'form.errors.rssExists';
           break;
-        case 'networkError':
-          watchedState.form.error = 'networkError';
-          watchedState.form.state = 'failed';
-          break;
         default:
-          throw new Error('Неизвестная ошибка');
+          throw new Error('Unknown error!');
       }
     });
 };
