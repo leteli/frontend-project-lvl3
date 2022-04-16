@@ -9,6 +9,8 @@ export default {
         invalidRss: 'Ресурс не содержит валидный RSS',
       },
     },
+    feedsHeader: 'Фиды',
+    postsHeader: 'Посты',
     checkButton: 'Просмотр',
     networkError: 'Ошибка сети',
   },
