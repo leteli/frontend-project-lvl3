@@ -12,19 +12,6 @@ export default () => {
     resources: { ru },
   });
 
-  yup.setLocale({
-    string: {
-      url: 'invalidUrl',
-    },
-    mixed: {
-      required: 'emptyField',
-    },
-  });
-
-  const schema = yup.object().shape({
-    url: yup.string().required().url(),
-  });
-
   const state = {
     form: {
       state: 'filling',
@@ -40,5 +27,15 @@ export default () => {
     },
   };
 
-  render(state, i18nextInstance, schema);
+  yup.setLocale({
+    string: {
+      url: 'invalidUrl',
+    },
+    mixed: {
+      required: 'emptyField',
+      notOneOf: 'rssExists',
+    },
+  });
+
+  render(state, i18nextInstance);
 };
