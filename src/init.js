@@ -29,11 +29,11 @@ export default () => {
 
   yup.setLocale({
     string: {
-      url: 'invalidUrl',
+      url: 'form.errors.invalidUrl',
     },
     mixed: {
-      required: 'emptyField',
-      notOneOf: 'rssExists',
+      required: 'form.errors.empty',
+      notOneOf: 'form.errors.rssExists',
     },
   });
 
