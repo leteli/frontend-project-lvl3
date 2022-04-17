@@ -3,11 +3,10 @@ export default (data) => {
   const parsedRss = parser.parseFromString(data, 'text/xml');
   const errorNode = parsedRss.querySelector('parsererror');
   if (errorNode) {
-    console.log(errorNode.children);
-    console.log(errorNode.textContent);
+    console.log(errorNode);
     console.log(errorNode.querySelector('div'));
-    const message = errorNode.querySelector('div').textContent;
-    const e = new Error(message);
+    console.log(errorNode.textContent);
+    const e = new Error(errorNode.textContent);
     e.name = 'ParserError';
     throw e;
   }
