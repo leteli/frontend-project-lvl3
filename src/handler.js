@@ -65,7 +65,7 @@ export default (watchedState) => {
       }
       watchedState.form.valid = false;
       if (err.name === 'ValidationError') {
-        watchedState.form.error = err.message;
+        watchedState.form.error = `form.errors.${err.message}`;
       }
       if (err.name === 'ParserError') {
         watchedState.form.error = 'form.errors.invalidRss';
