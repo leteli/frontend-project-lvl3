@@ -66,8 +66,10 @@ const render = (state, i18nextInstance) => {
         const postLink = document.createElement('a');
         postLink.setAttribute('href', post.link);
         postLink.textContent = post.title;
-        if (!state.uiState.readPostsIds.includes(post.id)) {
+        if (!watchedState.uiState.readPostsIds.includes(post.id)) {
           postLink.classList.add('fw-bold');
+        } else {
+          postLink.classList.add('fw-normal', 'text-secondary');
         }
         postLink.setAttribute('id', `${post.id}`);
         postLiEl.append(postLink);
