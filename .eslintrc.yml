@@ -14,4 +14,3 @@ rules:
   no-underscore-dangle: [2, { "allow": ["__filename", "__dirname"] }]
   import/extensions: 0
   no-param-reassign: 0
-  testing-library/no-debugging-utils: "off"
