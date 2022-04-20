@@ -1,11 +1,7 @@
 import axios from 'axios';
 import _ from 'lodash';
 import * as yup from 'yup';
-import debug from 'debug';
 import parse from './parser.js';
-
-const log = debug('errors');
-debug.enable('errors');
 
 const validate = (urls, value) => {
   const schema = yup.object().shape({
@@ -60,8 +56,6 @@ export default (watchedState) => {
       return setTimeout(rssCheck, 5000, feed, watchedState);
     })
     .catch((err) => {
-      log(err.name);
-      log(err.message);
       if (err.isAxiosError) {
         watchedState.form.error = 'networkError';
         watchedState.form.state = 'failed';
